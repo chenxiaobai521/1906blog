@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hello</h1>
+    <input type="text" id="aaa">
+    <button id="bbb">提交</button>
+    <script>
+        // 建立 WebSocket 连接.
+        const socket = new WebSocket('ws://192.168.126.66:9501');
+
+        // 连接已建立
+        socket.addEventListener('open', function (event) {
+            socket.send('Hello Server!');
+            // 向服务器发送数据
+            document.getElementById('bbb').addEventListener('click',function(){
+                // 获取聊天信息
+                var msg=document.getElementById('aaa').value;
+                console.log(msg);
+                socket.send(msg);
+            })
+        });
+
+        // 监听服务器消息(当服务向客户端发送消息时触发)
+        socket.addEventListener('message', function (event) {
+            console.log('Message from server ', event.data);
+        });
+    </script>
+</body>
+</html>
